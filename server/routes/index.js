@@ -6,4 +6,10 @@ router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
+router.post('/register', (req, res) => {
+  res.send({
+    message: `hello world! register by ${req.body.email}`
+  });
+});
+
 module.exports = router;
