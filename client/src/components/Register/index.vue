@@ -11,12 +11,10 @@ export default {
   },
   methods: {
     async register() {
-      const data = {
+      await authService.register({
         email: this.email,
         password: this.password
-      };
-      console.log(data);
-      await authService.register(data);
+      });
     }
   }
 };
