@@ -8,7 +8,9 @@ router.get('/', function(req, res) {
 
 router.post('/register', (req, res) => {
   res.send({
-    message: `hello world! register by ${req.body.email}`
+    message: `hello world! register by ${req.body.username} the password is ${
+      req.body.password
+    }`
   });
 });
 

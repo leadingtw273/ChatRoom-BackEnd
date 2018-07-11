@@ -1,0 +1,12 @@
+@import 'bootstrap/scss/_functions.scss';
+@import './helpers/_variables';
+@import 'bootstrap/scss/bootstrap.scss';
+
+
+body {
+  background: $gray-200;
+}
+
+.completed {
+  text-decoration: line-through;
+}

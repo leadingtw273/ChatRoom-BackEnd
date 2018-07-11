@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bootstrap": "^4.1.1",
     "eslint-plugin-vue": "^4.5.0",
     "node-sass": "^4.9.2",
+    "npm": "^6.1.0",
     "sass-loader": "^7.0.3",
     "superagent": "^3.8.3",
     "superagent-absolute": "^1.0.1",
@@ -56,6 +58,7 @@
     "shelljs": "^0.7.6",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
+    "vue-easytable": "^1.7.1",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "^2.5.2",

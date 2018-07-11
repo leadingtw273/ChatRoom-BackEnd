@@ -2,17 +2,17 @@
 import authService from '@/services/AuthService';
 
 export default {
-  name: 'register',
+  name: 'Register',
   data() {
     return {
-      email: '',
+      username: '',
       password: ''
     };
   },
   methods: {
     async register() {
       await authService.register({
-        email: this.email,
+        username: this.username,
         password: this.password
       });
     }
