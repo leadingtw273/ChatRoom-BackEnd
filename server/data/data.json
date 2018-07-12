@@ -1,0 +1,60 @@
+{
+  "chatroom": [
+    {
+      "id": 0,
+      "roomname": "晚餐房間",
+      "creatuser": "leadingtw",
+      "key": "46w5e4fa354ga3sdgxc3e5t7yh",
+      "messages": [
+        {
+          "id": 0,
+          "user": "leadingtw",
+          "message": "安安"
+        },
+        {
+          "id": 1,
+          "user": "john",
+          "message": "所以吃？"
+        },
+        {
+          "id": 2,
+          "user": "maray",
+          "message": "安安"
+        },
+        {
+          "id": 3,
+          "user": "andy",
+          "message": "不知道"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "roomname": "下周旅遊",
+      "creatuser": "andy",
+      "key": "ds2e1tg3s5er4gs32df1h3s5dth4",
+      "messages": [
+        {
+          "id": 0,
+          "user": "andy",
+          "message": "下周去哪玩"
+        },
+        {
+          "id": 1,
+          "user": "leadingtw",
+          "message": "推台北　＋１"
+        },
+        {
+          "id": 2,
+          "user": "maray",
+          "message": "高雄旗津也不錯"
+        },
+        {
+          "id": 3,
+          "user": "leadingtw",
+          "message": "恩．．．都可拉！"
+        }
+      ]
+    }
+  ]
+}

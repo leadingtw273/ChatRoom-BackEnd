@@ -46,21 +46,22 @@ export default {
   },
   methods: {
     addMsg(id) {
-      if (this.text === '') return 0;
+      if (this.text === '') return false;
       this.messages.push({
         id,
         username: this.username,
         text: this.text
       });
       this.text = '';
-      setTimeout(() => {
-        let scrollItem = this.$el.querySelector('.message-bar');
-        scrollItem.scrollTop = scrollItem.scrollHeight;
-      }, 0.1);
+      return true;
     }
   },
   mounted() {
-    let scrollItem = this.$el.querySelector('.message-bar');
+    const scrollItem = this.$el.querySelector('.message-bar');
+    scrollItem.scrollTop = scrollItem.scrollHeight;
+  },
+  updated() {
+    const scrollItem = this.$el.querySelector('.message-bar');
     scrollItem.scrollTop = scrollItem.scrollHeight;
   }
 };
