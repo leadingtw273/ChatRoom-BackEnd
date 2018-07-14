@@ -8,6 +8,7 @@ import NotFound404 from '@/pages/NotFound404/';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -15,19 +16,20 @@ export default new Router({
       redirect: { name: 'register' }
     },
     {
-      path: '/register',
+      path: '/user',
       name: 'register',
       component: Register
     },
     {
-      path: '/chatroomlist',
+      path: '/user/:username/chatroomlist',
       name: 'chatroomlist',
       component: ChatRoomList
     },
     {
-      path: '/chatroom',
+      path: '/user/:username/chatroomlist/:roomid',
       name: 'chatroom',
-      component: ChatRoom
+      component: ChatRoom,
+      props: true
     },
     {
       path: '*',

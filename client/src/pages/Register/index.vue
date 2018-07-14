@@ -1,19 +1,20 @@
 <script>
-import authService from '@/services/AuthService';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Register',
   data() {
     return {
-      username: '',
-      password: ''
+      username: ''
     };
   },
   methods: {
+    ...mapActions(['USER_SET']),
     async register() {
-      await authService.register({
-        username: this.username,
-        password: this.password
+      await this.USER_SET(this.username);
+      this.$router.push({
+        name: 'chatroomlist',
+        params: { username: this.username }
       });
     }
   }

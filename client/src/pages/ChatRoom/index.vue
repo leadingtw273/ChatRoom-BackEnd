@@ -1,65 +1,32 @@
 <script>
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   name: 'ChatRoom',
   data() {
     return {
-      username: 'leadingtw',
-      text: '',
-      messages: [
-        {
-          id: 1,
-          username: 'leadingtw',
-          text: '安安'
-        },
-        {
-          id: 2,
-          username: 'andy',
-          text: '你好?'
-        },
-        {
-          id: 3,
-          username: 'leadingtw',
-          text: '晚餐吃啥?'
-        },
-        {
-          id: 4,
-          username: 'andy',
-          text: '吃大便'
-        },
-        {
-          id: 5,
-          username: 'andy',
-          text: '你好?'
-        },
-        {
-          id: 6,
-          username: 'leadingtw',
-          text: '晚餐吃啥?'
-        },
-        {
-          id: 7,
-          username: 'andy',
-          text: '吃大便'
-        }
-      ]
+      message: '',
+      nd: true
     };
   },
+  props: ['roomid'],
+  computed: {
+    ...mapGetters(['getMessage'])
+  },
   methods: {
-    addMsg(id) {
-      if (this.text === '') return false;
-      this.messages.push({
-        id,
-        username: this.username,
-        text: this.text
-      });
-      this.text = '';
-      return true;
+    ...mapActions(['MESSAGE_PUSH']),
+    async addMsg() {
+      if (this.message !== '') {
+        await this.MESSAGE_PUSH({
+          message: this.message,
+          roomid: this.roomid,
+          user: this.$route.params.username
+        });
+        this.message = '';
+      }
     }
   },
-  mounted() {
-    const scrollItem = this.$el.querySelector('.message-bar');
-    scrollItem.scrollTop = scrollItem.scrollHeight;
-  },
+  mounted() {},
   updated() {
     const scrollItem = this.$el.querySelector('.message-bar');
     scrollItem.scrollTop = scrollItem.scrollHeight;

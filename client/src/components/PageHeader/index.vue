@@ -1,6 +1,13 @@
 <script>
 export default {
-  name: 'PageHeader'
+  name: 'PageHeader',
+  methods: {
+    goRegister() {
+      this.$router.push({
+        name: 'register'
+      });
+    }
+  }
 };
 </script>
 

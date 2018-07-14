@@ -1,30 +1,52 @@
-import vue from 'vue';
+// import vue from 'vue';
 import * as types from './mutations_type';
 
-export const state = {
-  user: '',
-  chatroom: []
-};
-export const mutations = {
-  [types.pullChatroom](state) {
+const mutations = {
+  [types.pushMessage](state, payload) {
+    const target = state.history.find(msg => {
+      return msg.id === payload.roomid;
+    }).messages;
+    const data = {
+      id: target.length,
+      message: payload.message,
+      user: payload.user
+    };
 
+    target.push(data);
   },
-  [types.pushMessage](state) {
+  [types.setRoomId](state, payload) {
+    state.roomid = payload;
+  },
+  [types.setUser](state, payload) {
+    state.user = payload;
+  },
+  [types.createRoom](state, payload) {
+    const target = state.chatrooms;
+    const data = {
+      roomname: payload.roomname,
+      key: payload.key,
+      creatuser: payload.creatuser,
+      id: target.length,
+    };
 
-  }
+    target.push(data);
+  },
+  [types.createMessage](state, payload) {
+    const target = state.history;
+    const data = {
+      id: target.length,
+      key: payload.key,
+      messages: [
+        {
+          id: 0,
+          user: 'SYSTEM_MESSAGE',
+          message: `Room '${payload.roomname}' create by '${payload.creatuser}'`
+        }
+      ]
+    };
+
+    target.push(data);
+  },
 };
 
-// export default {
-//   state: {
-//     user: '',
-//     chatroom: []
-//   },
-//   mutations: {
-//     [types.pullChatroom](state) {
-
-//     },
-//     [types.pushMessage](state) {
-
-//     }
-//   }
-// };
+export default mutations;

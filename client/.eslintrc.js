@@ -57,6 +57,7 @@ module.exports = {
     'linebreak-style': 'off',
     'arrow-body-style': 'off',
     'comma-dangle': 'off',
-    'no-console': 'off'
+    'no-console': 'off',
+    'arrow-parens': ["error", "as-needed"],
   }
 };

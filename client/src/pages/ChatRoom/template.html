@@ -3,20 +3,20 @@
     <h1>ChatRoom</h1>
     <hr>
   </div>
-  <div class="border-chat p-3">
+  <div class="border-chat p-3" v-if="nd">
     <div class="message-bar">
-      <div class="message-item text-left" v-for="(message,index) in messages" :key="message.id" v-bind:class="message.username == username ? 'user' : ''">
-        <p class="name">{{message.username}}</p>
-        <p class="text">{{message.text}}</p>
+      <div class="message-item text-left" v-for="(message,index) in getMessage(roomid)" :key="message.id" v-bind:class="message.user === $route.params.username ? 'user' : ''">
+        <p class="name">{{message.user}}</p>
+        <p class="text">{{message.message}}</p>
       </div>
     </div>
     <div class="input-bar px-3">
       <hr class="my-3">
       <div class="input-group">
-        <input type="text" class="form-control" placeholder="text" v-model="text">
+        <input type="text" class="form-control" placeholder="text" v-model="message">
         <div class="input-group-append">
-          <span class="input-group-text" id="basic-addon1">{{username}}</span>
-          <button class="btn btn-primary" type="button" v-on:click="addMsg(messages.length +1 )">send</button>
+          <span class="input-group-text" id="basic-addon1">{{$route.params.username}}</span>
+          <button class="btn btn-primary" type="button" v-on:click="addMsg()">send</button>
         </div>
       </div>
     </div>

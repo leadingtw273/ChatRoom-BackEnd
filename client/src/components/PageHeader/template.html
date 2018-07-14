@@ -1,6 +1,7 @@
 <div class="PageHeader d-flex justify-content-center">
   <!-- As a heading -->
-  <nav class="navbar navbar-light bg-light">
-    <span class="navbar-brand mb-0 h1">Navbar</span>
+  <nav class="navbar navbar-light bg-light  justify-content-between">
+    <span class="navbar-brand mb-0 h1">Chat Room</span>
+    <button class="btn btn-outline-warning" v-on:click="goRegister" v-if="Object.keys($route.params).length !== 0">{{$route.params.username}}</button>
   </nav>
 </div>
