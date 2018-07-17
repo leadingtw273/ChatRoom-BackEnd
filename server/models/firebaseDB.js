@@ -8,68 +8,73 @@ admin.initializeApp({
 
 let db = admin.firestore().collection('chatroom');
 
-let read = [];
 
 const firebaseDb = {
-  readRoomList() {
-    read = [];
-    let data = db.get()
-      .then((snapshot) => {
+  readRooms() {
+    let read = [];
+
+    return db.get()
+      .then(snapshot => {
         snapshot.forEach((doc) => {
           read.push(doc.data());
         });
         return read;
       })
-      .catch((err) => {
+      .catch(err => {
         return err;
       });
-    return data;
   },
-  readMsg(roomId) {
-    read = [];
+  readRoom(roomId) {
+    let read = [];
 
-    let data = db.where('id', '==', roomId).get()
-      .then((snapshot) => {
-        let id = 0;
-        snapshot.forEach((doc) => {
-          id = doc.id;
-        });
-        return id;
-      }).then((id) => {
-        return db.doc(id).collection('messages').get();
-      }).then((snapshot) => {
+    return db.where('id', '==', roomId).get()
+      .then(snapshot => {
         snapshot.forEach((doc) => {
           read.push(doc.data());
         });
         return read;
+      })
+      .catch(err => {
+        return err;
       });
-
-    // let data = db.doc(roomId).collection('messages').get()
-    //   .then((snapshot) => {
-    //     snapshot.forEach((doc) => {
-    //       read.push(doc.data());
-    //     });
-    //     return read;
-    //   })
-    //   .catch((err) => {
-    //     return err;
-    //   });
-
-    return data;
   },
-  setRoomList() {
-    read = [];
+  readMsg(roomId) {
+    let read = [];
 
-    let room = {
-      id: 2,
-      createBy: 'leadingtw',
-      key: 'qazwsxedc',
-      roomName: 'add test'
-    };
-
-    db.doc('02').set(room);
-
-    return room;
+    return db.where('id', '==', roomId).get()
+      .then(snapshot => {
+        let id = 0;
+        snapshot.forEach(doc => id = doc.id);
+        return id;
+      })
+      .then(id => db.doc(id).collection('messages').get())
+      .then(snapshot => {
+        snapshot.forEach(doc => read.push(doc.data()));
+        return read;
+      })
+      .catch(err => {
+        return err;
+      });
+  },
+  addRoom(data) {
+    return db.add(data)
+      .then(documentReference => documentReference.id)
+      .catch(err => {
+        return err;
+      });
+  },
+  addMsg(roomId, data) {
+    return db.where('id', '==', roomId).get()
+      .then(snapshot => {
+        let id = 0;
+        snapshot.forEach(doc => id = doc.id);
+        return id;
+      })
+      .then(id => db.doc(id).collection('messages').add(data))
+      .then(documentReference => documentReference.id)
+      .catch(err => {
+        return err;
+      });
   },
 };
 

@@ -7,28 +7,28 @@ router.get('/', function (req, res) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/readMsg', (req, res) => {
-  db.readMsg(0).then((read) => {
-    console.log(read);
-    res.send(
-      read
-    );
-  });
+router.get('/rooms', (req, res) => {
+  db.readRooms().then(read => res.send(read));
 });
 
-router.post('/readRoomList', (req, res) => {
-  db.readRoomList().then((read) => {
-    console.log(read);
-    res.send(
-      read
-    );
-  });
+router.get('/rooms/:roomId', (req, res) => {
+  db.readRoom(Number(req.params.roomId)).then(read => res.send(read));
 });
 
-router.post('/setRoomList', (req, res) => {
-  res.send(
-    db.setRoomList()
-  );
+router.get('/rooms/:roomId/messages', (req, res) => {
+  db.readMsg(Number(req.params.roomId)).then(read => res.send(read));
+});
+
+router.post('/rooms', (req, res) => {
+  db.addRoom(req.body)
+    .then(id => res.send({ state: true, id }))
+    .catch(err => res.send({ state: false, err }));
+});
+
+router.post('/rooms/:roomId/messages', (req, res) => {
+  db.addMsg(Number(req.params.roomId), req.body)
+    .then(id => res.send({ state: true, id }))
+    .catch(err => res.send({ state: false, err }));
 });
 
 module.exports = router;
