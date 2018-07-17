@@ -44,7 +44,6 @@ export default {
       try {
         const data = {
           roomname,
-          key,
           creatuser,
         };
 

@@ -24,7 +24,6 @@ const mutations = {
     const target = state.chatrooms;
     const data = {
       roomname: payload.roomname,
-      key: payload.key,
       creatuser: payload.creatuser,
       id: target.length,
     };
@@ -35,7 +34,6 @@ const mutations = {
     const target = state.history;
     const data = {
       id: target.length,
-      key: payload.key,
       messages: [
         {
           id: 0,

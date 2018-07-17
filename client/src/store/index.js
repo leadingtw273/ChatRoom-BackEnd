@@ -8,25 +8,21 @@ vue.use(vuex);
 
 const state = {
   user: null,
-  roomid: '',
   chatrooms: [
     {
       id: 0,
       roomname: '晚餐房間',
-      creatuser: 'leadingtw',
-      key: '46w5e4fa354ga3sdgxc3e5t7yh'
+      creatuser: 'leadingtw'
     },
     {
       id: 1,
       roomname: '下周旅遊',
-      creatuser: 'andy',
-      key: 'ds2e1tg3s5er4gs32df1h3s5dt'
+      creatuser: 'andy'
     }
   ],
   history: [
     {
       id: 0,
-      key: '46w5e4fa354ga3sdgxc3e5t7yh',
       messages: [
         {
           id: 0,
@@ -67,7 +63,6 @@ const state = {
     },
     {
       id: 1,
-      key: 'ds2e1tg3s5er4gs32df1h3s5dt',
       messages: [
         {
           id: 0,

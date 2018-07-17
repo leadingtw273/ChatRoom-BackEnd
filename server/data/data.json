@@ -1,10 +1,21 @@
 {
-  "chatroom": [
+  "chatrooms": [
     {
       "id": 0,
       "roomname": "晚餐房間",
       "creatuser": "leadingtw",
-      "key": "46w5e4fa354ga3sdgxc3e5t7yh",
+      "key": "46w5e4fa354ga3sdgxc3e5t7yh"
+    },
+    {
+      "id": 2,
+      "roomname": "下周旅遊",
+      "creatuser": "andy",
+      "key": "ds2e1tg3s5er4gs32df1h3s5dth4"
+    }
+  ],
+  "history": [
+    {
+      "id": 0,
       "messages": [
         {
           "id": 0,
@@ -29,10 +40,7 @@
       ]
     },
     {
-      "id": 2,
-      "roomname": "下周旅遊",
-      "creatuser": "andy",
-      "key": "ds2e1tg3s5er4gs32df1h3s5dth4",
+      "id": 1,
       "messages": [
         {
           "id": 0,
