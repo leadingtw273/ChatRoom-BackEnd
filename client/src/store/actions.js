@@ -13,16 +13,6 @@ export default {
       }
     });
   },
-  ROOMID_SET({ commit }, id) {
-    return new Promise((resolve, reject) => {
-      try {
-        commit(types.setRoomId, id);
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    });
-  },
   MESSAGE_PUSH({ commit }, { message, roomid, user }) {
     return new Promise((resolve, reject) => {
       try {
@@ -41,13 +31,14 @@ export default {
   },
   ROOM_CREAT({ dispatch, commit }, { roomname, key, creatuser }) {
     return new Promise((resolve, reject) => {
+      console.log(key);
       try {
         const data = {
           roomname,
           creatuser,
         };
 
-        dispatch('ROOM_MESSAGE', data).then(() => {
+        dispatch('MESSAGE_CREAT', data).then(() => {
           commit(types.createRoom, data);
           resolve();
         });
@@ -56,7 +47,7 @@ export default {
       }
     });
   },
-  ROOM_MESSAGE({ commit }, data) {
+  MESSAGE_CREAT({ commit }, data) {
     return new Promise((resolve, reject) => {
       try {
         commit(types.createMessage, data);

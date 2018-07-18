@@ -31,6 +31,9 @@ export default {
       this.roomName = '';
       this.roomKey = '';
     }
+  },
+  mounted() {
+    console.log('123123');
   }
 };
 </script>

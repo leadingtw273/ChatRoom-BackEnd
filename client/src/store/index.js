@@ -1,8 +1,13 @@
 import vue from 'vue';
 import vuex from 'vuex';
+import io from 'socket.io-client';
 import actions from './actions';
 import mutations from './mutations';
 import * as getters from './getters';
+import socketPlugin from './plugins/webSocket';
+
+const socket = io('http://localhost:3000');
+const plugin = socketPlugin(socket);
 
 vue.use(vuex);
 
@@ -94,5 +99,6 @@ export default new vuex.Store({
   state,
   actions,
   mutations,
-  getters
+  getters,
+  plugins: [plugin]
 });

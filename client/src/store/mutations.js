@@ -2,6 +2,9 @@
 import * as types from './mutations_type';
 
 const mutations = {
+  [types.setUser](state, payload) {
+    state.user = payload;
+  },
   [types.pushMessage](state, payload) {
     const target = state.history.find(msg => {
       return msg.id === payload.roomid;
@@ -13,12 +16,6 @@ const mutations = {
     };
 
     target.push(data);
-  },
-  [types.setRoomId](state, payload) {
-    state.roomid = payload;
-  },
-  [types.setUser](state, payload) {
-    state.user = payload;
   },
   [types.createRoom](state, payload) {
     const target = state.chatrooms;
