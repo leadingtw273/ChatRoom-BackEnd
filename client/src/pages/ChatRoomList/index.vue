@@ -1,5 +1,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import * as types from '../../store/mutations_type';
 
 export default {
   name: 'ChatRoomList',
@@ -15,7 +16,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['ROOMID_SET', 'ROOM_CREAT']),
+    ...mapActions(['ROOM_NEW']),
     async clickLink(id) {
       this.$router.push({
         name: 'chatroom',
@@ -23,17 +24,21 @@ export default {
       });
     },
     async addRoom() {
-      await this.ROOM_CREAT({
-        roomname: this.roomName,
+      await this.ROOM_NEW({
+        id: this.rooms.length,
+        roomName: this.roomName,
         key: this.roomKey,
-        creatuser: this.$route.params.username
+        createBy: this.$route.params.username
       });
       this.roomName = '';
       this.roomKey = '';
     }
   },
-  mounted() {
-    console.log('123123');
+  created() {
+    this.$store.commit(`${[types.openRoomSocket]}`);
+  },
+  beforeDestroy() {
+    this.$store.commit(`${[types.closeRoomSocket]}`);
   }
 };
 </script>

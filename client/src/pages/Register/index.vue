@@ -9,9 +9,9 @@ export default {
     };
   },
   methods: {
-    ...mapActions(['USER_SET']),
+    ...mapActions(['USER_COMMIT']),
     async register() {
-      await this.USER_SET(this.username);
+      await this.USER_COMMIT(this.username);
       this.$router.push({
         name: 'chatroomlist',
         params: { username: this.username }

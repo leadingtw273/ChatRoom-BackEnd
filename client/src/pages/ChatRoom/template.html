@@ -3,10 +3,10 @@
     <h1>ChatRoom</h1>
     <hr>
   </div>
-  <div class="border-chat p-3" v-if="nd">
+  <div class="border-chat p-3">
     <div class="message-bar">
-      <div class="message-item text-left" v-for="(message,index) in getMessage(roomid)" :key="message.id" v-bind:class="message.user === $route.params.username ? 'user' : ''">
-        <p class="name">{{message.user}}</p>
+      <div class="message-item text-left" v-for="(message,index) in messages" :key="message.id" v-bind:class="message.from === $route.params.username ? 'user' : ''">
+        <p class="name">{{message.from}}</p>
         <p class="text">{{message.message}}</p>
       </div>
     </div>

@@ -44,9 +44,9 @@
       :key="room.id" v-on:click="clickLink(room.id)">
       <div class="d-flex w-75">
         <h5 class="ml-0">{{index + 1 }}</h5>
-        <p class="ml-5 font-weight-bold ">{{room.roomname}}</p>
+        <p class="ml-5 font-weight-bold ">{{room.roomName}}</p>
         <span class="badge ml-auto p-2" v-bind:class="room.creatuser === $route.params.username?'badge-primary':'badge-info'">
-          <small>{{room.creatuser}}</small>
+          <small>{{room.createBy}}</small>
         </span>
       </div>
     </a>

@@ -2,45 +2,63 @@ const socketApi = io => {
 
   const express = require('express');
   const router = express.Router();
-  const db = require('../models/firebaseDB');
+  const admin = require('firebase-admin');
 
-  /* GET home page. */
-  router.get('/', function (req, res) {
-    res.send('test');
-  });
-
-  router.get('/rooms', (req, res) => {
-    db.readRooms().then(read => res.send(read));
-  });
-
-  router.get('/rooms/:roomId', (req, res) => {
-    db.readRoom(Number(req.params.roomId)).then(read => res.send(read));
-  });
-
-  router.get('/rooms/:roomId/messages', (req, res) => {
-    db.readMsg(Number(req.params.roomId)).then(read => res.send(read));
-  });
-
-  router.post('/rooms', (req, res) => {
-    db.addRoom(req.body)
-      .then(id => res.send({ state: true, id }))
-      .catch(err => res.send({ state: false, err }));
-  });
-
-  router.post('/rooms/:roomId/messages', (req, res) => {
-    db.addMsg(Number(req.params.roomId), req.body)
-      .then(id => res.send({ state: true, id }))
-      .catch(err => res.send({ state: false, err }));
-  });
+  let db = admin.firestore().collection('chatroom');
 
   io.on('connection', socket => {
+    console.log(`${socket.id} connect~`);
 
-    setTimeout(() => {
-      socket.emit('data', 'socket');
-    }, 3000);
+    let data = [];
+    db.onSnapshot(snapshot => {
+      snapshot.forEach((doc) => data.push(doc.data()));
+      socket.emit('rooms', data);
+      data = [];
+    });
+
+    socket.on('setRoom', data => {
+      db.add(data)
+        .then(documentReference => documentReference.id)
+        .catch(err => {
+          return err;
+        });
+    });
+
+    socket.on('getMessage', data => {
+      let read = [];
+      db.where('id', '==', data.id).get()
+        .then(snapshot => {
+          let id = 0;
+          snapshot.forEach(doc => id = doc.id);
+          return id;
+        })
+        .then(id => {
+          db.doc(id).collection('messages').onSnapshot(snapshot => {
+            snapshot.forEach(doc => read.push(doc.data()));
+            socket.emit('messages', read);
+            read = [];
+          });
+        })
+        .catch(err => {
+          return err;
+        });
+    });
+
+    socket.on('setMessage', data => {
+      db.where('id', '==', data.roomId).get()
+        .then(snapshot => {
+          let id = 0;
+          snapshot.forEach(doc => id = doc.id);
+          return id;
+        })
+        .then(id => db.doc(id).collection('messages').add(data.message))
+        .catch(err => {
+          return err;
+        });
+    });
 
     socket.on('disconnect', () => {
-      console.log('a user go out');
+      console.log(`${socket.id} disconnect~`);
     });
 
   });

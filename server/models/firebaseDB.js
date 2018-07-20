@@ -8,17 +8,6 @@ admin.initializeApp({
 
 let db = admin.firestore().collection('chatroom');
 
-// firebase 資料更新測試
-// let data = [];
-// db.onSnapshot(snapshot => {
-//   snapshot.forEach((doc) => {
-//     data.push(doc.data());
-//   });
-//   console.log(`Received doc snapshot: ${snapshot}`);
-//   console.log(data);
-//   data = [];
-// });
-
 const firebaseDb = {
   readRooms() {
     let read = [];

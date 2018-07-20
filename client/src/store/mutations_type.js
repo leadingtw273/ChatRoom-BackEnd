@@ -1,4 +1,10 @@
-export const setUser = 'setUser';
+export const commitUser = 'commitUser';
 export const pushMessage = 'pushMessage';
-export const createRoom = 'createRoom';
-export const createMessage = 'createMessage';
+
+export const pullRooms = 'pullRooms';
+
+export const newRoom = 'newRoom';
+
+export const openRoomSocket = 'openRoomSocket';
+export const closeRoomSocket = 'closeRoomSocket';
+

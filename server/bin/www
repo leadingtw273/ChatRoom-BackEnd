@@ -24,7 +24,8 @@ var server = http.createServer(app);
 /**
  * Create Socket server.  
  */
-app.io.attach(server);
+app.ioRooms.attach(server);
+app.ioMsg.attach(server);
 
 // app.io.attach(server);
 

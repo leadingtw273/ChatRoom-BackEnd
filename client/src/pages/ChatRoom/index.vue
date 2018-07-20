@@ -1,12 +1,15 @@
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import io from 'socket.io-client';
+
+let socket = {};
 
 export default {
   name: 'ChatRoom',
   data() {
     return {
-      message: '',
-      nd: true
+      messages: [],
+      message: ''
     };
   },
   props: ['roomid'],
@@ -14,22 +17,35 @@ export default {
     ...mapGetters(['getMessage'])
   },
   methods: {
-    ...mapActions(['MESSAGE_PUSH']),
-    async addMsg() {
+    addMsg() {
       if (this.message !== '') {
-        await this.MESSAGE_PUSH({
-          message: this.message,
-          roomid: this.roomid,
-          user: this.$route.params.username
-        });
+        const data = {
+          roomId: this.$route.params.roomid,
+          message: {
+            from: this.$route.params.username,
+            id: this.messages.length,
+            message: this.message
+          }
+        };
+        socket.emit('setMessage', data);
+        this.messages.push(data.message);
         this.message = '';
       }
     }
   },
-  mounted() {},
   updated() {
     const scrollItem = this.$el.querySelector('.message-bar');
     scrollItem.scrollTop = scrollItem.scrollHeight;
+  },
+  created() {
+    socket = io('http://localhost:3000/', { path: '/messages' });
+    socket.emit('getMessage', { id: this.$route.params.roomid });
+    socket.on('messages', data => {
+      this.messages = data.sort((a, b) => a.id - b.id);
+    });
+  },
+  beforeDestroy() {
+    socket.close();
   }
 };
 </script>

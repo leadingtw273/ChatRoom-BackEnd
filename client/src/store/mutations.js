@@ -2,7 +2,7 @@
 import * as types from './mutations_type';
 
 const mutations = {
-  [types.setUser](state, payload) {
+  [types.commitUser](state, payload) {
     state.user = payload;
   },
   [types.pushMessage](state, payload) {
@@ -17,31 +17,14 @@ const mutations = {
 
     target.push(data);
   },
-  [types.createRoom](state, payload) {
-    const target = state.chatrooms;
-    const data = {
-      roomname: payload.roomname,
-      creatuser: payload.creatuser,
-      id: target.length,
-    };
-
-    target.push(data);
+  [types.pullRooms](state, payload) {
+    state.chatrooms = payload;
   },
-  [types.createMessage](state, payload) {
-    const target = state.history;
-    const data = {
-      id: target.length,
-      messages: [
-        {
-          id: 0,
-          user: 'SYSTEM_MESSAGE',
-          message: `Room '${payload.roomname}' create by '${payload.creatuser}'`
-        }
-      ]
-    };
-
-    target.push(data);
+  [types.newRoom](state, payload) {
+    state.chatrooms.push(payload);
   },
+  [types.openRoomSocket]() { },
+  [types.closeRoomSocket]() { },
 };
 
 export default mutations;
