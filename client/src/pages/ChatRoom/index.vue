@@ -1,6 +1,6 @@
 <script>
-import { mapGetters } from 'vuex';
 import io from 'socket.io-client';
+import { mapGetters } from 'vuex';
 
 let socket = {};
 
@@ -12,10 +12,13 @@ export default {
       message: ''
     };
   },
-  props: ['roomid'],
   computed: {
-    ...mapGetters(['getMessage'])
+    ...mapGetters(['getRooms']),
+    getRoomName() {
+      return this.getRooms.find(data => data.id === this.roomid).roomName;
+    }
   },
+  props: ['roomid'],
   methods: {
     addMsg() {
       if (this.message !== '') {

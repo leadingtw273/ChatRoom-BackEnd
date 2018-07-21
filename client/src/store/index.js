@@ -12,8 +12,7 @@ vue.use(vuex);
 
 const state = {
   user: null,
-  chatrooms: [],
-  history: []
+  chatrooms: []
 };
 
 export default new vuex.Store({

@@ -17,11 +17,7 @@ const socketApi = io => {
     });
 
     socket.on('setRoom', data => {
-      db.add(data)
-        .then(documentReference => documentReference.id)
-        .catch(err => {
-          return err;
-        });
+      db.add(data);
     });
 
     socket.on('getMessage', data => {

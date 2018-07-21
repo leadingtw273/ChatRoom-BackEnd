@@ -6,9 +6,7 @@ const mutations = {
     state.user = payload;
   },
   [types.pushMessage](state, payload) {
-    const target = state.history.find(msg => {
-      return msg.id === payload.roomid;
-    }).messages;
+    const target = state.history.find(msg => msg.id === payload.roomid).messages;
     const data = {
       id: target.length,
       message: payload.message,

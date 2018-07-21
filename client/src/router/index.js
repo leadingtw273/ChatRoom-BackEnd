@@ -23,7 +23,8 @@ export default new Router({
     {
       path: '/user/:username/chatroomlist',
       name: 'chatroomlist',
-      component: ChatRoomList
+      component: ChatRoomList,
+      props: true
     },
     {
       path: '/user/:username/chatroomlist/:roomid',
