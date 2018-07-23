@@ -59,5 +59,6 @@ module.exports = {
     'comma-dangle': 'off',
     'no-console': 'off',
     'arrow-parens': ["error", "as-needed"],
+    'no-param-reassign': 'off',
   }
 };

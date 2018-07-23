@@ -8,6 +8,7 @@ router.get('/', function (req, res) {
 });
 
 router.get('/rooms', (req, res) => {
+  console.log('123');
   db.readRooms().then(read => res.send(read));
 });
 

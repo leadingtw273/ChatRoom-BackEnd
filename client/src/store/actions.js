@@ -14,7 +14,7 @@ export default {
   MESSAGE_PUSH({ commit }, data) {
     return new Promise((resolve, reject) => {
       try {
-        commit(types.pushMessage, data);
+        commit(types.newMessage, data);
         resolve();
       } catch (err) {
         reject(err);

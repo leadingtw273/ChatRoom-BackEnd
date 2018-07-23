@@ -2,6 +2,7 @@ import * as types from '../mutations_type';
 
 const socketPlugin = socket => store => {
   socket.on('rooms', data => {
+    data.sort((a, b) => a.id - b.id);
     store.commit(`${[types.pullRooms]}`, data);
   });
 
