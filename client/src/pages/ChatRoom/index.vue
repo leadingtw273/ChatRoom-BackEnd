@@ -56,7 +56,7 @@ export default {
         socket.emit('setMessage', data);
         this.messages.push({
           message: this.message,
-          id: this.message.length,
+          id: this.messages.length,
           from: this.getUser
         });
         this.message = '';
