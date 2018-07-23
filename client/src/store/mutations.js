@@ -6,7 +6,7 @@ const mutations = {
     state.user = payload;
   },
   [types.pullMessages](state, payload) {
-    state.chatrooms[payload.id].messages = payload.data;
+    state.chatmessages[payload.id] = payload.data;
   },
   [types.newMessage](state, payload) {
     const target = state.history.find(msg => msg.id === payload.roomid).messages;

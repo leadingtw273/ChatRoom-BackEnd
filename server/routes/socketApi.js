@@ -2,25 +2,30 @@ const socketApi = io => {
 
   const express = require('express');
   const router = express.Router();
-  const admin = require('firebase-admin');
 
-  let db = admin.firestore().collection('chatroom');
+  const admin = require('firebase-admin');
+  const db = admin.firestore().collection('chatroom');
 
   io.on('connection', socket => {
-    console.log(`${socket.id} connect~`);
 
-    let data = [];
-    db.onSnapshot(snapshot => {
-      snapshot.forEach((doc) => data.push(doc.data()));
-      socket.emit('rooms', data);
-      data = [];
+    // 房間獲取
+    socket.on('getRooms', () => {
+      console.log('getRooms');
+      let data = [];
+      db.onSnapshot(snapshot => {
+        snapshot.forEach((doc) => data.push(doc.data()));
+        socket.emit('rooms', data);
+        data = [];
+      });
     });
-
     socket.on('setRoom', data => {
+      console.log('setRoom');
       db.add(data);
     });
 
+    // 訊息獲取
     socket.on('getMessage', data => {
+      console.log('getMessage');
       let read = [];
       db.where('id', '==', data.id).get()
         .then(snapshot => {
@@ -39,8 +44,8 @@ const socketApi = io => {
           return err;
         });
     });
-
     socket.on('setMessage', data => {
+      console.log('setMessage');
       db.where('id', '==', data.roomId).get()
         .then(snapshot => {
           let id = 0;
@@ -54,9 +59,8 @@ const socketApi = io => {
     });
 
     socket.on('disconnect', () => {
-      console.log(`${socket.id} disconnect~`);
-    });
 
+    });
   });
 
   return router;
