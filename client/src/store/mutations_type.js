@@ -1,6 +1,5 @@
 export const commitUser = 'commitUser';
 
-export const pullMessages = 'pullMessages';
 export const newMessage = 'newMessage';
 
 export const pullRooms = 'pullRooms';

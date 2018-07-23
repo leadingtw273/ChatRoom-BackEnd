@@ -6,8 +6,7 @@ export default {
   name: 'ChatRoomList',
   data() {
     return {
-      roomName: '',
-      roomKey: ''
+      roomName: ''
     };
   },
   computed: {
@@ -27,11 +26,9 @@ export default {
       await this.ROOM_NEW({
         id: this.rooms.length,
         roomName: this.roomName,
-        key: this.roomKey,
         createBy: this.$route.params.username
       });
       this.roomName = '';
-      this.roomKey = '';
     }
   },
   created() {

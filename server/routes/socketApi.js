@@ -34,11 +34,18 @@ const socketApi = io => {
           return id;
         })
         .then(id => {
-          db.doc(id).collection('messages').onSnapshot(snapshot => {
-            snapshot.forEach(doc => read.push(doc.data()));
-            socket.emit('messages', read);
-            read = [];
-          });
+          // 自動更新
+          // db.doc(id).collection('messages').onSnapshot(snapshot => {
+          //   snapshot.forEach(doc => read.push(doc.data()));
+          //   socket.emit('messages', read);
+          //   read = [];
+          // });
+          return db.doc(id).collection('messages').get();
+        })
+        .then(snapshot => {
+          snapshot.forEach(doc => read.push(doc.data()));
+          socket.emit('messages', read);
+          read = [];
         })
         .catch(err => {
           return err;
@@ -53,9 +60,8 @@ const socketApi = io => {
           return id;
         })
         .then(id => db.doc(id).collection('messages').add(data.message))
-        .catch(err => {
-          return err;
-        });
+        .then(() => socket.broadcast.emit('pushMessage', data.message))
+        .catch(err => err);
     });
 
     socket.on('disconnect', () => {

@@ -14,16 +14,18 @@ export default {
   data() {
     return {
       messages: [],
-      message: ''
+      message: '',
+      key: ''
     };
   },
   computed: {
-    ...mapGetters(['getRooms']),
+    ...mapGetters(['getRooms', 'getUser']),
     getRoomName() {
       return this.getRooms.find(data => data.id === this.roomid).roomName;
     },
-    getRoomKey() {
-      return this.getRooms.find(data => data.id === this.roomid).key;
+    sortMessages() {
+      const target = this.messages.slice();
+      return target.sort((a, b) => a.id - b.id);
     }
   },
   props: ['roomid'],
@@ -33,14 +35,14 @@ export default {
         let data = {};
         await instance
           .post('/AES_encrypt', {
-            key: this.getRoomKey,
+            key: this.key,
             data: this.message
           })
           .then(res => {
             data = {
-              roomId: this.$route.params.roomid,
+              roomId: this.roomid,
               message: {
-                from: this.$route.params.username,
+                from: this.getUser,
                 id: this.messages.length,
                 message: res.data.encrypt_text,
                 Um: res.data.Um
@@ -52,9 +54,17 @@ export default {
           });
 
         socket.emit('setMessage', data);
-        this.messages.push(this.message);
+        this.messages.push({
+          message: this.message,
+          id: this.message.length,
+          from: this.getUser
+        });
         this.message = '';
       }
+    },
+    setKey() {
+      this.messages = [];
+      socket.emit('getMessage', { id: this.roomid });
     }
   },
   updated() {
@@ -63,37 +73,40 @@ export default {
   },
   created() {
     socket = io('http://localhost:3000/', { path: '/messages' });
-    socket.emit('getMessage', { id: this.$route.params.roomid });
-    socket.on('messages', async data => {
-      data.sort((a, b) => a.id - b.id);
-      // this.messages = data;
-
-      const enDatas = [];
-      await data.forEach(async cryptData => {
-        console.log(cryptData.id);
-
-        let enData = '';
-        await instance
+    socket.emit('getMessage', { id: this.roomid });
+    socket.on('messages', data => {
+      data.forEach(cryptData => {
+        instance
           .post('/AES_decrypt', {
             data: cryptData.message,
             Um: cryptData.Um,
-            key: this.getRoomKey
+            key: this.key
           })
           .then(res => {
-            // console.log(res.data.decrypt_text);
-            enData = res.data.decrypt_text;
+            this.messages.push({
+              from: cryptData.from,
+              id: cryptData.id,
+              message: res.data.decrypt_text
+            });
           })
-          .catch(err => {
-            console.log(err);
-          });
-        await enDatas.push({
-          from: cryptData.from,
-          id: cryptData.id,
-          message: enData
-        });
+          .catch(err => console.log(err));
       });
-      // console.log(enDatas.sort((a, b) => a.id - b.id));
-      this.messages = enDatas.sort((a, b) => a.id - b.id);
+    });
+    socket.on('pushMessage', data => {
+      instance
+        .post('/AES_decrypt', {
+          data: data.message,
+          Um: data.Um,
+          key: this.key
+        })
+        .then(res => {
+          this.messages.push({
+            from: data.from,
+            id: data.id,
+            message: res.data.decrypt_text
+          });
+        })
+        .catch(err => console.log(err));
     });
   },
   beforeDestroy() {
