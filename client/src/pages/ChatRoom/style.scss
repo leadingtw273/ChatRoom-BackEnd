@@ -2,13 +2,13 @@
 
 .ChatRoom{
   .border-chat{
-    height: 500px;
+    height: 370px;
     border: 3px solid $secondary;
     border-radius: 1rem;
     background-color: $gray-100;
     position: relative;
     .message-bar{
-      height: 80%;
+      height: calc(100% - 100px);
       width: 100%;
       overflow-y: scroll;
       > .user{
@@ -37,8 +37,16 @@
       position: absolute;
       bottom: 0px;
       left: 0px;
-      height: 20%;
+      height: 100px;
       width: 100%;
+    }
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .ChatRoom{
+    .border-chat{
+      height: 500px;
     }
   }
 }

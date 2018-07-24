@@ -4,13 +4,27 @@
   .list-group-item-action{
     color: $gray-800;
     > div{
+      width: 100%;
+
       > * {
         margin: 0px;
         padding: 0px;
       }
-      >p{
-        padding-left: 20px;
-        border-left: 1px solid $gray-600;
+      > .room-index{
+
+        text-align: left;
+      }
+      > .room-name{
+
+        text-align: left;
+        font-weight: bold;
+      }
+      > .room-creater{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding:3px;
+
       }
     }
     &:hover{

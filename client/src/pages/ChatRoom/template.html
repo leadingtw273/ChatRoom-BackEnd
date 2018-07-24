@@ -4,7 +4,7 @@
     <hr>
   </div>
   <div class="form-row align-items-center mb-3">
-    <div class="col-sm-10">
+    <div class="col-sm-9">
       <div class="input-group">
         <div class="input-group-prepend">
           <div class="input-group-text">
@@ -14,8 +14,8 @@
         <input type="text" class="form-control" placeholder="Room's Key" v-model.trim="key">
       </div>
     </div>
-    <div class="col-sm-2">
-      <button class="btn btn-primary" :disabled="reLoadDisabled" type="button" v-on:click="setKey()">RELOAD</button>
+    <div class="col-sm-3 d-flex justify-content-end">
+      <button class="btn btn-primary my-1" type="button" v-bind:disabled="reLoadDisabled" v-on:click="setKey()">RELOAD</button>
     </div>
   </div>
   <div class="border-chat p-3">

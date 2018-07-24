@@ -2,7 +2,7 @@
   <div id="app">
     <PageHeader/>
     <div class="container">
-    <router-view style="margin:40px 20px 20px 30px"/>
+    <router-view style="margin:20px 0px 40px 0px"/>
     </div>
   </div>
 </template>
