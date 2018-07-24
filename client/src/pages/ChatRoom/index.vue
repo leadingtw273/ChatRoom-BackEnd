@@ -1,6 +1,5 @@
 <script>
 import io from 'socket.io-client';
-import { mapGetters } from 'vuex';
 import axios from 'axios';
 
 const instance = axios.create({
@@ -13,58 +12,58 @@ export default {
   name: 'ChatRoom',
   data() {
     return {
+      reLoadDisabled: true,
       messages: [],
       message: '',
       key: ''
     };
   },
   computed: {
-    ...mapGetters(['getRooms', 'getUser']),
-    getRoomName() {
-      return this.getRooms.find(data => data.id === this.roomid).roomName;
-    },
     sortMessages() {
       const target = this.messages.slice();
       return target.sort((a, b) => a.id - b.id);
     }
   },
-  props: ['roomid'],
+  props: ['roomid', 'username'],
   methods: {
-    async addMsg() {
+    addMsg() {
       if (this.message !== '') {
-        let data = {};
-        await instance
+        instance
           .post('/AES_encrypt', {
             key: this.key,
             data: this.message
           })
           .then(res => {
-            data = {
+            return {
               roomId: this.roomid,
               message: {
-                from: this.getUser,
+                from: this.username,
                 id: this.messages.length,
                 message: res.data.encrypt_text,
                 Um: res.data.Um
               }
             };
           })
+          .then(data => {
+            socket.emit('setMessage', data);
+            this.messages.push({
+              id: this.messages.length,
+              message: this.message,
+              from: this.username
+            });
+            this.message = '';
+          })
           .catch(err => {
             console.log(err);
           });
-
-        socket.emit('setMessage', data);
-        this.messages.push({
-          message: this.message,
-          id: this.messages.length,
-          from: this.getUser
-        });
-        this.message = '';
       }
     },
     setKey() {
-      this.messages = [];
-      socket.emit('getMessage', { id: this.roomid });
+      if (this.key !== '') {
+        this.reLoadDisabled = true;
+        this.messages = [];
+        socket.emit('getMessage', { id: this.roomid });
+      }
     }
   },
   updated() {
@@ -75,22 +74,30 @@ export default {
     socket = io('http://localhost:3000/', { path: '/messages' });
     socket.emit('getMessage', { id: this.roomid });
     socket.on('messages', data => {
+      const forPromis = [];
       data.forEach(cryptData => {
-        instance
-          .post('/AES_decrypt', {
-            data: cryptData.message,
-            Um: cryptData.Um,
-            key: this.key
-          })
-          .then(res => {
-            this.messages.push({
-              from: cryptData.from,
-              id: cryptData.id,
-              message: res.data.decrypt_text
-            });
-          })
-          .catch(err => console.log(err));
+        forPromis.push(
+          instance
+            .post('/AES_decrypt', {
+              data: cryptData.message,
+              Um: cryptData.Um,
+              key: this.key
+            })
+            .then(res => {
+              this.messages.push({
+                from: cryptData.from,
+                id: cryptData.id,
+                message: res.data.decrypt_text
+              });
+            })
+            .catch(err => console.log(err))
+        );
       });
+      Promise.all(forPromis)
+        .then(() => {
+          this.reLoadDisabled = false;
+        })
+        .catch(err => console.log(err));
     });
     socket.on('pushMessage', data => {
       instance

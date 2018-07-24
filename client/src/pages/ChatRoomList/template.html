@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="list-group mt-4">
-    <a href="javascript:;" class="list-group-item list-group-item-action d-flex justify-content-center" v-for="(room, index) in rooms"
+    <a href="javascript:;" class="list-group-item list-group-item-action d-flex justify-content-center" v-for="(room, index) in sortRooms"
       :key="room.id" v-on:click="clickLink(room.id)">
       <div class="d-flex w-75">
         <h5 class="ml-0">{{index + 1 }}</h5>

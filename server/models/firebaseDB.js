@@ -11,7 +11,6 @@ let db = admin.firestore().collection('chatroom');
 const firebaseDb = {
   readRooms() {
     let read = [];
-
     return db.get()
       .then(snapshot => {
         snapshot.forEach((doc) => {
@@ -19,28 +18,15 @@ const firebaseDb = {
         });
         return read;
       })
-      .catch(err => {
-        return err;
-      });
+      .catch(err => err);
   },
-  readRoom(roomId) {
-    let read = [];
-
-    return db.where('id', '==', roomId).get()
-      .then(snapshot => {
-        snapshot.forEach((doc) => {
-          read.push(doc.data());
-        });
-        return read;
-      })
-      .catch(err => {
-        return err;
-      });
+  addRoom(data) {
+    return db.add(data)
+      .catch(err => err);
   },
-  readMsg(roomId) {
+  readMsg(data) {
     let read = [];
-
-    return db.where('id', '==', roomId).get()
+    return db.where('id', '==', data.id).get()
       .then(snapshot => {
         let id = 0;
         snapshot.forEach(doc => id = doc.id);
@@ -51,29 +37,17 @@ const firebaseDb = {
         snapshot.forEach(doc => read.push(doc.data()));
         return read;
       })
-      .catch(err => {
-        return err;
-      });
+      .catch(err => err);
   },
-  addRoom(data) {
-    return db.add(data)
-      .then(documentReference => documentReference.id)
-      .catch(err => {
-        return err;
-      });
-  },
-  addMsg(roomId, data) {
-    return db.where('id', '==', roomId).get()
+  addMsg(data) {
+    return db.where('id', '==', data.roomId).get()
       .then(snapshot => {
         let id = 0;
         snapshot.forEach(doc => id = doc.id);
         return id;
       })
-      .then(id => db.doc(id).collection('messages').add(data))
-      .then(documentReference => documentReference.id)
-      .catch(err => {
-        return err;
-      });
+      .then(id => db.doc(id).collection('messages').add(data.message))
+      .catch(err => err);
   },
 };
 

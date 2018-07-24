@@ -1,41 +1,55 @@
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import * as types from '../../store/mutations_type';
+import io from 'socket.io-client';
+
+let socket = {};
 
 export default {
   name: 'ChatRoomList',
   data() {
     return {
-      roomName: ''
+      roomName: '',
+      rooms: []
     };
   },
   computed: {
-    ...mapGetters({
-      rooms: 'getRooms'
-    })
+    sortRooms() {
+      const target = this.rooms.slice();
+      return target.sort((a, b) => a.id - b.id);
+    }
   },
+  props: ['username'],
   methods: {
-    ...mapActions(['ROOM_NEW']),
-    async clickLink(id) {
+    clickLink(id) {
       this.$router.push({
         name: 'chatroom',
         params: { roomid: id, username: this.$route.params.username }
       });
     },
-    async addRoom() {
-      await this.ROOM_NEW({
-        id: this.rooms.length,
-        roomName: this.roomName,
-        createBy: this.$route.params.username
-      });
-      this.roomName = '';
+    addRoom() {
+      if (this.roomName !== '') {
+        const data = {
+          id: this.rooms.length,
+          roomName: this.roomName,
+          createBy: this.username
+        };
+        socket.emit('setRoom', data);
+        this.rooms.push(data);
+        this.roomName = '';
+      }
     }
   },
   created() {
-    this.$store.commit(`${[types.openRoomSocket]}`);
+    socket = io('http://localhost:3000/', { path: '/rooms' });
+    socket.emit('getRooms');
+    socket.on('rooms', data => {
+      this.rooms = data;
+    });
+    socket.on('pushRoom', data => {
+      this.rooms.push(data);
+    });
   },
   beforeDestroy() {
-    this.$store.commit(`${[types.closeRoomSocket]}`);
+    socket.close();
   }
 };
 </script>
