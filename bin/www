@@ -29,6 +29,7 @@ var server1 = require('http').Server(app_chat);
 
 app.ioRooms.attach(server1);
 app.ioMsg.attach(server1);
+//GCP 目前無法建置 websocket 宣告不治
 
 server1.listen(65080);
 
