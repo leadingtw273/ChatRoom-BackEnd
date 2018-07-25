@@ -3,11 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-<<<<<<< HEAD
-    "start": "node ./bin/www",
-=======
-    "start": "nodemon ./bin/www",
->>>>>>> 0e812a3... 修改設置
+    "start": "nodemon ./bin/www --exec \"npm run lint && node\"",
     "lint": "eslint **/*.js"
   },
   "dependencies": {
