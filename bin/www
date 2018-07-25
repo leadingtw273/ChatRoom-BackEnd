@@ -24,14 +24,9 @@ var server = http.createServer(app);
 /**
  * Create Socket server.  
  */
-var app_chat = require('express')();
-var server1 = require('http').Server(app_chat);
-
-app.ioRooms.attach(server1);
-app.ioMsg.attach(server1);
+app.ioRooms.attach(server);
+app.ioMsg.attach(server);
 //GCP 目前無法建置 websocket 宣告不治
-
-server1.listen(65080);
 
 /**
  * Listen on provided port, on all network interfaces.
