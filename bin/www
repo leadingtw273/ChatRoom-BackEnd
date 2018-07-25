@@ -24,8 +24,13 @@ var server = http.createServer(app);
 /**
  * Create Socket server.  
  */
-app.ioRooms.attach(server);
-app.ioMsg.attach(server);
+var app_chat = require('express')();
+var server1 = require('http').Server(app_chat);
+
+app.ioRooms.attach(server1);
+app.ioMsg.attach(server1);
+
+server1.listen(65080);
 
 // app.io.attach(server);
 

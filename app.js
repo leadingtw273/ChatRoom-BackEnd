@@ -28,6 +28,7 @@ app.use('/users', usersRouter);
 
 app.ioRooms = socket({ path: '/rooms' });
 app.ioMsg = socket({ path: '/messages' });
+
 app.use(socketRouter(app.ioRooms));
 app.use(socketRouter(app.ioMsg));
 
