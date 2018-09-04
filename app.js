@@ -11,7 +11,7 @@ const socketRouter = require('./routes/socketApi');
 const app = express();
 
 let distFile = 'dist';
-// distFile = 'distLocal';
+//distFile = 'distLocal';
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
