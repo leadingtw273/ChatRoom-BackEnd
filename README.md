@@ -3,7 +3,7 @@
 學校專案~  
 這是應用了混沌系統的簡易聊天室(後端)，主要透過 API 與混沌 Server 做訊息加密，架設在 heroku 上面。
 
-網址: https://crypto-chat-room.herokuapp.com/#/user
+[網址](http://jjylab.dlinkddns.com:8080/#/user)
 
 ---
 
