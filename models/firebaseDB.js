@@ -34,10 +34,10 @@ const firebaseDb = {
       }))
       .catch(err => err);
   },
-  readMsg(data) {
+  readMsg(roomId) {
     let read = [];
     return db
-      .doc(data.id)
+      .doc(roomId)
       .collection("messages")
       .get()
       .then(snapshot => {
@@ -46,11 +46,11 @@ const firebaseDb = {
       })
       .catch(err => err);
   },
-  addMsg(data) {
+  addMsg(roomId, data) {
     return db
-      .doc(data.roomId)
+      .doc(roomId)
       .collection("messages")
-      .add(data.message)
+      .add(data)
       .then(docRef => docRef.get())
       .then(doc => {
         return {
