@@ -10,7 +10,7 @@ let db = admin.firestore().collection("chatroom");
 
 const firebaseDb = {
   readRooms() {
-    let read = [];
+    const read = [];
     return db
       .get()
       .then(snapshot => {
@@ -35,7 +35,7 @@ const firebaseDb = {
       .catch(err => err);
   },
   readMsg(roomId) {
-    let read = [];
+    const read = [];
     return db
       .doc(roomId)
       .collection("messages")
