@@ -1,7 +1,8 @@
 module.exports = {
   apps : [{
     name: "Chatroom_Backend",
-    script: "./app.js",
+    script: "./bin/www",
+    exec_mode: 'cluster',
     env: {
       NODE_ENV: "development",
     },
