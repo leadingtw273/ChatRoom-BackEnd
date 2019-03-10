@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const fireDB = require("../models/firebaseDB");
+const dayjs = require('dayjs');
 
 const roomInfo = {};
 
@@ -47,7 +48,7 @@ const socketApi = io => {
     // 離開房間
     socket.on('leave', () => {
       // 房間不存在則直接退出
-      if(typeof roomInfo[roomID] !== 'array'){
+      if(roomInfo[roomID] == null){
         return false;
       }
 
@@ -94,7 +95,10 @@ const socketApi = io => {
       
       // 將新訊息存入資料庫
       fireDB
-        .addMsg(roomID,data)
+        .addMsg(roomID,{
+          createTime: dayjs().format(),
+          ...data
+        })
         .then(message => {
           io.to(roomID).emit("pushMessage", message);
         })
