@@ -1,7 +1,8 @@
-FROM node:8.11.1
+FROM keymetrics/pm2:8-alpine
 WORKDIR /app
 COPY package.json /app
-RUN npm install
+RUN npm install --production
 COPY . /app
 EXPOSE 3000
-CMD npm start
+
+CMD [ "pm2-runtime", "start", "pm2.config.js" ]
