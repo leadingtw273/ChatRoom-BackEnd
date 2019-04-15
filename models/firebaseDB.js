@@ -22,7 +22,7 @@ const firebaseDb = {
         });
         return read;
       })
-      .catch(err => err);
+      .catch(err => { throw err });
   },
   addRoom(data) {
     return db
@@ -32,7 +32,7 @@ const firebaseDb = {
         id: doc.id,
         ...doc.data()
       }))
-      .catch(err => err);
+      .catch(err => { throw err });
   },
   readMsg(roomId) {
     const read = [];
@@ -44,7 +44,7 @@ const firebaseDb = {
         snapshot.forEach(doc => read.push({ id: doc.id, ...doc.data() }));
         return read;
       })
-      .catch(err => err);
+      .catch(err => { throw err });
   },
   addMsg(roomId, data) {
     return db
@@ -58,7 +58,7 @@ const firebaseDb = {
           ...doc.data()
         };
       })
-      .catch(err => err);
+      .catch(err => { throw err });
   }
 };
 
