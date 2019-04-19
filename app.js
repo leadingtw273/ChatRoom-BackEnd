@@ -19,7 +19,7 @@ app.use(cookieParser());
 app.use('/', indexRouter);
 
 // Socket Io
-app.webSocket = socket();
+app.webSocket = socket({ path: '/chatroom/api' });
 app.use(socketService(app.webSocket));
 
 // catch 404 and forward to error handler
